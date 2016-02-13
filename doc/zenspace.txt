@@ -1,0 +1,151 @@
+*zenspace.txt*	Show Ideographic Space (a.k.a. Zenkaku Space).
+
+Version: 1.0
+Author : thinca <thinca+vim@gmail.com>
+License: zlib License
+
+==============================================================================
+CONTENTS					*zenspace-contents*
+
+INTRODUCTION			|zenspace-introduction|
+INTERFACE			|zenspace-interface|
+  COMMANDS			  |zenspace-commands|
+  FUNCTIONS			  |zenspace-functions|
+CUSTOMIZING			|zenspace-customizing|
+  VARIABLES			  |zenspace-variables|
+  HIGHLIGHT			  |zenspace-highlight|
+CHANGELOG			|zenspace-changelog|
+
+
+
+==============================================================================
+INTRODUCTION					*zenspace-introduction*
+
+*zenspace.vim* is a Vim plugin to show the Ideographic Space(\u3000) that is
+called Zenkaku Space in Japan.
+
+Can you see "　"?  If no, you need this plugin.
+Ideographic Space is invisibility by default, so it is confused with
+Space(\x20).
+
+This plugin respects 'list' option by default.  So, I recommend to turn on
+'list' option: >
+	set list
+
+If you want to show Ideographic Space always, set |g:zenspace#default_mode|:
+>
+	let g:zenspace#default_mode = 'on'
+<
+This plugin may work from Vim 7.4 or later, but I recommend to use Vim 7.4.786
+or later.  |OptionSet| autocmd is available from this version, so this plugin
+can follow 'list' option immediately.
+
+
+Requirements:
+- Vim 7.4 or later
+
+Latest version:
+https://github.com/thinca/vim-zenspace
+
+
+
+==============================================================================
+INTERFACE					*zenspace-interface*
+
+------------------------------------------------------------------------------
+COMMANDS					*zenspace-commands*
+
+:ZenSpaceOn					*:ZenSpaceOn*
+	Show Ideographic Space in current window.
+
+:ZenSpaceOff					*:ZenSpaceOff*
+	Don't show Ideographic Space in current window.
+
+:ZenSpaceList					*:ZenSpaceList*
+	Respects 'list' option to show Ideographic Space.
+
+:ZenSpaceUpdate					*:ZenSpaceUpdate*
+	Manually updates the showing state.  You don't need this usually.
+
+------------------------------------------------------------------------------
+FUNCTIONS					*zenspace-functions*
+
+zenspace#on()					*zenspace#on()*
+	Function version of |:ZenSpaceOn|.
+
+zenspace#off()					*zenspace#off()*
+	Function version of |:ZenSpaceOff|.
+
+zenspace#list()					*zenspace#list()*
+	Function version of |:ZenSpaceList|.
+
+zenspace#update()				*zenspace#update()*
+	Function version of |:ZenSpaceUpdate|.
+
+zenspace#is_on()				*zenspace#is_on()*
+	Returns non-zero if current window should show Ideographic Space.
+	Note that this may differ to actual current state. >
+
+	ZenSpaceList
+	setlocal nolist
+	" Can't follow the 'list' when changed it with :noautocmd
+	noautocmd setlocal list
+	" This returns 1, but Ideographic Space is not shown.
+	echo zenspace#is_on()
+	" Please use :ZenSpaceUpdate when this case
+	ZenSpaceUpdate
+
+
+==============================================================================
+CUSTOMIZING					*zenspace-customizing*
+
+------------------------------------------------------------------------------
+VARIABLES					*zenspace-variables*
+
+g:zenspace#default_mode				*g:zenspace#default_mode*
+	The show mode to be applied to a new window.
+	The value is one of the following:
+
+	- "on"
+	  Show Zenkaku Space by default.
+
+	- "off"
+	  Don't show Zenkaku Space by default.
+	  Use |:ZenSpaceOn| to show it.
+
+	- "list"
+	  Respects 'list' option.
+
+	Default: "list"
+
+
+------------------------------------------------------------------------------
+HIGHLIGHT					*zenspace-highlight*
+
+ZenSpace					*hl-ZenSpace*
+	Name of highlights showing Ideographic Space.
+	You can change the highlight color by this.
+	ex: Highlight with Red
+>
+	highlight ZenSpace ctermbg=Red guibg=Red
+<
+	You should use |ColorScheme| autocmd event to define this.
+>
+	augroup vimrc-highlight
+	  autocmd!
+	  autocmd ColorScheme * highlight ZenSpace ctermbg=Red guibg=Red
+	augroup END
+<
+	Default:
+	highlight ZenSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+
+
+==============================================================================
+CHANGELOG					*zenspace-changelog*
+
+1.0	2016-02-14
+	- Initial version.
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl
