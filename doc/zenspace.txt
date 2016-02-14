@@ -24,7 +24,6 @@ INTRODUCTION					*zenspace-introduction*
 *zenspace.vim* is a Vim plugin to show the Ideographic Space(\u3000) that is
 called Zenkaku Space in Japan.
 
-Can you see "　"?  If no, you need this plugin.
 Ideographic Space is invisibility by default, so it is confused with
 Space(\x20).
 
