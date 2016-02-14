@@ -8,6 +8,9 @@ scriptencoding utf-8
 if !exists('g:zenspace#default_mode')
   let g:zenspace#default_mode = 'list'
 endif
+if !exists('g:zenspace#pattern_list')
+  let g:zenspace#pattern_list = ['　']
+endif
 
 function! zenspace#setup_highlight() abort
   highlight default ZenSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
@@ -37,9 +40,11 @@ function! zenspace#update() abort
   endif
 
   if on
-    let w:zenspace_match_id = matchadd('ZenSpace', '　')
+    let w:zenspace_match_id = map(
+    \   copy(g:zenspace#pattern_list), 'matchadd("ZenSpace", v:val)'
+    \)
   else
-    call matchdelete(w:zenspace_match_id)
+    call map(copy(w:zenspace_match_id), 'matchdelete(v:val)')
     unlet w:zenspace_match_id
   endif
 endfunction
