@@ -39,7 +39,7 @@ function! zenspace#update() abort
   if on
     let w:zenspace_match_id = matchadd('ZenSpace', '　')
   else
-    call matchdelete(w:zenspace_match_id)
+    silent! call matchdelete(w:zenspace_match_id)
     unlet w:zenspace_match_id
   endif
 endfunction
